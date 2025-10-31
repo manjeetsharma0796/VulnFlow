@@ -16,6 +16,7 @@ export default function DashboardPage() {
   const [language, setLanguage] = useState<"solidity" | "cadence">("solidity");
   const [report, setReport] = useState<any | null>(null);
   const [loading, setLoading] = useState(false);
+  const analysisRef = useRef<HTMLDivElement>(null);
   const fixedSourceRef = useRef<HTMLDivElement>(null);
 
   const handleAnalyze = async () => {
@@ -47,6 +48,18 @@ export default function DashboardPage() {
 
   const monacoLang = "sol"; // Force Solidity mode for both selections
 
+  // Smooth scroll to analysis section when analysis completes
+  useEffect(() => {
+    if (report && analysisRef.current) {
+      setTimeout(() => {
+        analysisRef.current?.scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      }, 100);
+    }
+  }, [report]);
+
   // Smooth scroll to fixed code section when auto-fix completes
   useEffect(() => {
     if (fixedSource && fixedSourceRef.current) {
@@ -60,66 +73,72 @@ export default function DashboardPage() {
   }, [fixedSource]);
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
-      <div className="md:col-span-8 space-y-6">
-        <Card className="card-glass">
-          <CardHeader className="flex flex-row items-center justify-between">
-            <CardTitle>Smart Contract</CardTitle>
-            <div className="flex items-center gap-2">
-              <label className="text-sm text-muted-foreground">Language</label>
-              <select
-                className="border rounded px-2 py-1 text-sm bg-white text-foreground"
-                value={language}
-                onChange={(e) => setLanguage(e.target.value as any)}
-              >
-                <option value="solidity">Solidity</option>
-                <option value="cadence">Cadence</option>
-              </select>
-            </div>
-          </CardHeader>
-          <CardContent className="space-y-4">
-            <MonacoEditor value={source} onChange={setSource} language={monacoLang} height={560} />
-            <div className="flex gap-3">
-              <Button onClick={handleAnalyze} disabled={loading}>
-                {loading ? "Analyzing..." : "Analyze"}
-              </Button>
-              <AutoFixButton
-                disabled={!report}
-                source={source}
-                language={language}
-                onApplied={(improved) => {
-                  setFixedSource(improved);
-                }}
-              />
-            </div>
-          </CardContent>
-        </Card>
-
-        {fixedSource && (
-          <Card ref={fixedSourceRef} className="card-glass">
-            <CardHeader>
-              <CardTitle>AI-Fixed Contract</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <MonacoEditor 
-                value={fixedSource} 
-                onChange={(val) => setFixedSource(val)} 
-                language={monacoLang} 
-                height={560} 
-              />
-            </CardContent>
-          </Card>
-        )}
-      </div>
-
-      <Card className="md:col-span-4 card-glass">
-        <CardHeader>
-          <CardTitle>Vulnerability Report</CardTitle>
+    <div className="space-y-6">
+      <Card className="card-glass">
+        <CardHeader className="flex flex-row items-center justify-between">
+          <CardTitle>Smart Contract</CardTitle>
+          <div className="flex items-center gap-2">
+            <label className="text-sm text-muted-foreground">Language</label>
+            <select
+              className="border rounded px-2 py-1 text-sm bg-white text-foreground"
+              value={language}
+              onChange={(e) => setLanguage(e.target.value as any)}
+            >
+              <option value="solidity">Solidity</option>
+              <option value="cadence">Cadence</option>
+            </select>
+          </div>
         </CardHeader>
-        <CardContent>
-          <AnalysisResult report={report} />
+        <CardContent className="space-y-4">
+          <MonacoEditor value={source} onChange={setSource} language={monacoLang} height={560} />
+          <div className="flex gap-3">
+            <Button onClick={handleAnalyze} disabled={loading}>
+              {loading ? "Analyzing..." : "Analyze"}
+            </Button>
+          </div>
         </CardContent>
       </Card>
+
+      {/* Vulnerability Analysis Section */}
+      {report && (
+        <div ref={analysisRef}>
+          <Card className="card-glass">
+            <CardHeader>
+              <CardTitle>Vulnerability Report</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <AnalysisResult report={report} />
+              <div className="mt-6 pt-6 border-t flex justify-end">
+                <AutoFixButton
+                  disabled={!report}
+                  source={source}
+                  language={language}
+                  onApplied={(improved) => {
+                    setFixedSource(improved);
+                  }}
+                />
+              </div>
+            </CardContent>
+          </Card>
+        </div>
+      )}
+
+      {/* AI-Fixed Contract Section */}
+      {fixedSource && (
+        <Card ref={fixedSourceRef} className="card-glass">
+          <CardHeader>
+            <CardTitle>AI-Fixed Contract</CardTitle>
+          </CardHeader>
+          <CardContent>
+            <MonacoEditor 
+              value={fixedSource} 
+              onChange={(val) => setFixedSource(val)} 
+              language={monacoLang} 
+              height={560} 
+            />
+          </CardContent>
+        </Card>
+      )}
     </div>
   );
 }

@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { Zap } from "lucide-react";
 import { useContracts } from "@/lib/contract";
 import { useWriteContract } from "wagmi";
 import { useState } from "react";
@@ -99,8 +100,23 @@ export function AutoFixButton({
   };
 
   return (
-    <Button variant="secondary" onClick={handlePay} disabled={disabled || loading}>
-      {loading ? "Processing..." : "Auto-Fix using AI (Pay VFT)"}
+    <Button
+      variant="default"
+      size="lg"
+      onClick={handlePay}
+      disabled={disabled || loading}
+      className="w-auto bg-gradient-to-r from-indigo-600 to-purple-600 text-white shadow-lg transform transition hover:scale-[1.02]"
+    >
+      <span className="inline-flex items-center gap-2">
+        {loading ? (
+          "Processing..."
+        ) : (
+          <>
+            <Zap className="w-4 h-4" />
+            <span>Auto-Fix AI 🪄 (5 VFT)</span>
+          </>
+        )}
+      </span>
     </Button>
   );
 }
