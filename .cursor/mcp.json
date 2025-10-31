@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "flow-mcp": {
+      "command": "bunx",
+      "args": [
+        "-y",
+        "@openai-labs/flow-mcp@latest"
+      ],
+      "env": {},
+      "disabled": false
+    }
+  }
+}
+
+

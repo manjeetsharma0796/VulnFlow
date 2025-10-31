@@ -2,6 +2,7 @@ import "./globals.css";
 import type { Metadata } from "next";
 import { Providers } from "@/lib/providers";
 import { Navbar } from "@/components/Navbar";
+import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
   title: "VulnFlow",
@@ -17,6 +18,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <Navbar />
             <main className="container py-8">{children}</main>
           </div>
+          <Toaster position="bottom-right" richColors />
         </Providers>
       </body>
     </html>

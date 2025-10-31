@@ -2,6 +2,7 @@
 
 import { useAccount, useBalance } from "wagmi";
 import { useContracts } from "@/lib/contract";
+import { formatUnits } from "viem";
 
 export function TokenBalance({ compact = false }: { compact?: boolean }) {
   const { address } = useAccount();
@@ -12,7 +13,9 @@ export function TokenBalance({ compact = false }: { compact?: boolean }) {
     query: { enabled: Boolean(address) },
   });
 
-  if (!address) return <div className="text-sm text-muted-foreground">Connect</div>;
-  const text = data ? `${data.formatted} ${data.symbol}` : "-";
-  return <div className="text-sm text-muted-foreground">{compact ? data?.symbol || "VFT" : text}</div>;
+  if (!address) return <div className="text-sm text-muted-foreground">Connect To See Balance</div>;
+  if (!data) return <div className="text-sm text-muted-foreground">-</div>;
+  const formatted = parseFloat(formatUnits(data.value, data.decimals)).toFixed(2);
+  const text = compact ? `${formatted} ${data.symbol}` : `${formatUnits(data.value, data.decimals)} ${data.symbol}`;
+  return <div className="text-sm text-muted-foreground">{text}</div>;
 }

@@ -18,10 +18,10 @@ export function Providers({ children }: { children: ReactNode }) {
     });
 
     return (
-        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+        <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
             <WagmiProvider config={config}>
                 <QueryClientProvider client={client}>
-                    <RainbowKitProvider theme={darkTheme()}>
+                    <RainbowKitProvider theme={lightTheme()}>
                         {children}
                     </RainbowKitProvider>
                 </QueryClientProvider>
