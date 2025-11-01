@@ -14,7 +14,7 @@ export default function LandingPage() {
       </div>
       <div className="flex gap-4">
         <Link href="/app" className={buttonVariants({ size: "lg" })}>Launch App</Link>
-        <a href="https://github.com/" target="_blank" rel="noreferrer" className={buttonVariants({ variant: "secondary", size: "lg" })}>GitHub</a>
+        <a href="https://github.com/manjeetsharma0796/vulnflow" target="_blank" rel="noreferrer" className={buttonVariants({ variant: "secondary", size: "lg" })}>GitHub</a>
       </div>
 
       <section className="w-full mt-10 px-4">
