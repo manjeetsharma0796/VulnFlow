@@ -80,7 +80,7 @@ export function Navbar() {
       await writeContractAsync({
         address: addresses.VulnFlowToken,
         abi: abis.VulnFlowToken,
-        functionName: "mint",
+        functionName: "mintTo",
         args: [address, amount],
       });
 

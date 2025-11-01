@@ -9,7 +9,7 @@
 
 **An AI-assisted platform for analyzing and fixing smart contract vulnerabilities on Flow EVM**
 
-[🔗 Live Demo](#) | [📹 Video Demo](#) | [🐦 Twitter Post](#)
+[🔗 Live Demo](https://vuln-flow.vercel.app/) | [📹 Video Demo](#) | [🐦 Twitter Post](#)
 
 </div>
 
@@ -42,9 +42,7 @@ Smart contract vulnerabilities have led to **billions of dollars in losses** acr
 
 | Contract | Address | Explorer |
 |----------|---------|----------|
-| **VulnFlowToken (VFT)** | `0x6A70589E81e719fd358CA5DBB4eb79cf93f6bAAd` | [View on Explorer](https://evm-testnet.flowscan.io/address/0x6A70589E81e719fd358CA5DBB4eb79cf93f6bAAd) |
-| **DailyClaim** | `0xa80FF47557A57FE33E5eFc0ED5A21df745fddB4e` | [View on Explorer](https://evm-testnet.flowscan.io/address/0xa80FF47557A57FE33E5eFc0ED5A21df745fddB4e) |
-| **PaymentProcessor** | `0x7A085b49ecF10a36d15AdE6d386Fa032B2979045` | [View on Explorer](https://evm-testnet.flowscan.io/address/0x7A085b49ecF10a36d15AdE6d386Fa032B2979045) |
+| **VulnFlowToken (VFT)** | `0x14d1C30fd8647979DCDe3F5EAa296C195B84c0EF` | [View on Explorer](https://evm-testnet.flowscan.io/address/0x14d1C30fd8647979DCDe3F5EAa296C195B84c0EF) |
 
 ---
 
@@ -60,12 +58,10 @@ Smart contract vulnerabilities have led to **billions of dollars in losses** acr
 - One-click automated fixes for detected vulnerabilities
 - Generates secure, gas-optimized code
 - Preserves contract logic while eliminating security risks
-- Powered by VFT token economy (5 VFT per fix)
 
 ### 💰 VFT Token Economy
 - **VulnFlowToken (VFT)**: ERC-20 utility token for platform services
 - **Daily Claim**: Get 10 VFT tokens every 24 hours (free!)
-- **Pay for Services**: Use VFT to access premium features like auto-fix
 - **Persistent Wallet**: Auto-reconnect with RainbowKit integration
 
 ### 📊 Real-Time Metrics
@@ -93,18 +89,15 @@ graph TD
     G -->|No| I[Contract is Secure ✓]
     
     H --> J{User Wants Auto-Fix?}
-    J -->|Yes| K[Approve 5 VFT Payment]
-    K --> L[PaymentProcessor Contract]
-    L --> M[AI Generates Fixed Code]
-    M --> N[Display Fixed Contract]
+    J -->|Yes| K[AI Generates Fixed Code]
+    K --> L[Display Fixed Contract]
     
-    J -->|No| O[Manual Review]
+    J -->|No| M[Manual Review]
     
     style A fill:#e1bee7
     style D fill:#c5e1a5
     style F fill:#90caf9
-    style K fill:#ffcc80
-    style M fill:#a5d6a7
+    style K fill:#a5d6a7
     style I fill:#81c784
 ```
 
@@ -120,8 +113,6 @@ graph LR
     
     subgraph Blockchain
         D[VulnFlowToken]
-        E[DailyClaim]
-        F[PaymentProcessor]
     end
     
     subgraph AI Backend
@@ -130,17 +121,12 @@ graph LR
     end
     
     A -->|Wagmi Hooks| D
-    A -->|Web3 Calls| E
-    A -->|Web3 Calls| F
     B -->|Code Analysis| G
     G -->|Vulnerabilities| A
-    F -->|Payment Verified| H
     H -->|Fixed Code| A
     C -->|Wallet Connection| D
     
     style D fill:#9c27b0
-    style E fill:#673ab7
-    style F fill:#3f51b5
     style G fill:#2196f3
     style H fill:#03a9f4
 ```
@@ -153,7 +139,6 @@ sequenceDiagram
     participant Frontend
     participant AI Engine
     participant VFT Contract
-    participant Payment Processor
     
     User->>Frontend: Upload Contract Code
     Frontend->>AI Engine: Analyze for Vulnerabilities
@@ -162,11 +147,6 @@ sequenceDiagram
     Frontend->>User: Display Vulnerabilities
     
     User->>Frontend: Click Auto-Fix
-    Frontend->>VFT Contract: Approve 5 VFT
-    VFT Contract->>Frontend: Approval Confirmed
-    Frontend->>Payment Processor: Process Payment
-    Payment Processor->>VFT Contract: Transfer 5 VFT
-    Payment Processor->>Frontend: Payment Success
     Frontend->>AI Engine: Generate Fixed Code
     AI Engine->>Frontend: Return Secure Code
     Frontend->>User: Display Fixed Contract
@@ -185,8 +165,8 @@ sequenceDiagram
 
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/vulnflow.git
-cd vulnflow
+git clone https://github.com/manjeetsharma0796/VulnFlow.git
+cd VulnFlow
 
 # Install dependencies
 bun install
@@ -247,8 +227,7 @@ npm run dev
 
 ### 4️⃣ Auto-Fix Vulnerabilities
 - After analysis, click "Auto-Fix AI 🪄"
-- Approve 5 VFT token payment
-- Receive secure, fixed contract code
+- Receive secure, fixed contract code instantly
 - Download or copy the improved code
 
 ---
@@ -270,9 +249,7 @@ npm run dev
 - **Flow EVM** - Fast, low-cost smart contract platform
 
 ### Smart Contracts (Solidity)
-- **VulnFlowToken** - ERC-20 utility token
-- **DailyClaim** - Daily token distribution
-- **PaymentProcessor** - Service payment handling
+- **VulnFlowToken** - ERC-20 utility token with daily claim functionality
 
 ---
 
@@ -295,9 +272,7 @@ vulnflow/
 │   ├── AnalysisResult.tsx    # Vulnerability display
 │   └── AutoFixButton.tsx     # Auto-fix trigger
 ├── contracts/                # Solidity smart contracts
-│   ├── VulnFlowToken.sol     # ERC-20 token
-│   ├── DailyClaim.sol        # Daily claim logic
-│   └── PaymentProcessor.sol  # Payment handling
+│   └── VulnFlowToken.sol     # ERC-20 token with claim
 ├── abis/                     # Contract ABIs
 ├── lib/                      # Utility libraries
 │   ├── contract.ts           # Contract interactions
@@ -319,33 +294,15 @@ vulnflow/
 // - Mintable by owner
 // - Burnable
 // - 18 decimals
-// - Used for service payments
+// - Daily claim functionality (24-hour cooldown)
+// - Used for platform services
 ```
 
 **Key Functions:**
-- `mint(address to, uint256 amount)` - Mint new tokens
+- `mint(address to, uint256 amount)` - Mint new tokens (owner only)
 - `transfer(address to, uint256 amount)` - Transfer tokens
 - `approve(address spender, uint256 amount)` - Approve spending
-
-### DailyClaim
-
-```solidity
-// Daily token distribution system
-// Features:
-// - 24-hour cooldown period
-// - 10 VFT per claim
-// - Per-address tracking
-```
-
-### PaymentProcessor
-
-```solidity
-// Service payment handler
-// Features:
-// - Token-based payments
-// - Service fee collection
-// - Secure transfer handling
-```
+- Daily claim integrated in frontend (10 VFT per 24 hours)
 
 ---
 
@@ -358,7 +315,6 @@ The video demonstrates:
 - Daily VFT token claiming
 - Smart contract vulnerability analysis
 - Auto-fix feature in action
-- Token payment processing
 
 ---
 
@@ -451,8 +407,8 @@ MIT License - Free to use, modify, and distribute
 
 ## 🔗 Links
 
-- **Live App:** [your-vercel-app.vercel.app](#)
-- **GitHub:** [github.com/yourusername/vulnflow](https://github.com/yourusername/vulnflow)
+- **Live App:** [vuln-flow.vercel.app](https://vuln-flow.vercel.app/)
+- **GitHub:** [github.com/manjeetsharma0796/VulnFlow](https://github.com/manjeetsharma0796/VulnFlow)
 - **Flow EVM Testnet:** [evm-testnet.flowscan.io](https://evm-testnet.flowscan.io)
 - **Flow Docs:** [developers.flow.com](https://developers.flow.com)
 - **Twitter:** [@your_handle](#)
@@ -461,8 +417,8 @@ MIT License - Free to use, modify, and distribute
 
 ## 📞 Contact & Support
 
-- **Issues:** [GitHub Issues](https://github.com/yourusername/vulnflow/issues)
-- **Discussions:** [GitHub Discussions](https://github.com/yourusername/vulnflow/discussions)
+- **Issues:** [GitHub Issues](https://github.com/manjeetsharma0796/VulnFlow/issues)
+- **Discussions:** [GitHub Discussions](https://github.com/manjeetsharma0796/VulnFlow/discussions)
 - **Twitter:** [@your_handle](#)
 - **Email:** your.email@example.com
 

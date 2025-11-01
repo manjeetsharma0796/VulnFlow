@@ -3,7 +3,7 @@
 
 const https = require('https');
 
-const VFT_ADDRESS = '0x6A70589E81e719fd358CA5DBB4eb79cf93f6bAAd';
+const VFT_ADDRESS = '0x14d1C30fd8647979DCDe3F5EAa296C195B84c0EF';
 const WALLET_ADDRESS = '0x7FA3B1bCc3EEDCdDE1ae114E940a34FBfCD6173B';
 const RPC_URL = 'https://testnet.evm.nodes.onflow.org';
 
