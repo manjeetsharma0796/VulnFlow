@@ -13,7 +13,7 @@ export function TokenBalance({ compact = false }: { compact?: boolean }) {
     query: { enabled: Boolean(address) },
   });
 
-  if (!address) return <div className="text-sm text-muted-foreground">Connect To See Balance</div>;
+  if (!address) return <div className="text-sm text-muted-foreground">0.00 VFT</div>;
   if (!data) return <div className="text-sm text-muted-foreground">-</div>;
 
   // Show a friendly <0.01 indicator instead of "0.00" for very small balances

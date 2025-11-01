@@ -6,7 +6,10 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { AnalysisResult } from "@/components/AnalysisResult";
 import { AutoFixButton } from "@/components/AutoFixButton";
+import { ClaimButton } from "@/components/ClaimButton";
+import { TokenBalance } from "@/components/TokenBalance";
 import { toast } from "sonner";
+import { Coins } from "lucide-react";
 
 const MonacoEditor = dynamic(() => import("@/components/CodeEditor"), { ssr: false });
 
@@ -28,13 +31,13 @@ export default function DashboardPage() {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ source, language }),
       });
-      
+
       if (!res.ok) {
         const json = await res.json().catch(() => ({}));
         toast.error(json?.error || "Analysis failed", { id: "analyze" });
         return;
       }
-      
+
       const json = await res.json();
       setReport(json);
       toast.success("Analysis completed successfully!", { id: "analyze" });
@@ -74,6 +77,7 @@ export default function DashboardPage() {
 
   return (
     <div className="space-y-6">
+      {/* Claim VFT Section */}
       <Card className="card-glass">
         <CardHeader className="flex flex-row items-center justify-between">
           <CardTitle>Smart Contract</CardTitle>
@@ -130,11 +134,11 @@ export default function DashboardPage() {
             <CardTitle>AI-Fixed Contract</CardTitle>
           </CardHeader>
           <CardContent>
-            <MonacoEditor 
-              value={fixedSource} 
-              onChange={(val) => setFixedSource(val)} 
-              language={monacoLang} 
-              height={560} 
+            <MonacoEditor
+              value={fixedSource}
+              onChange={(val) => setFixedSource(val)}
+              language={monacoLang}
+              height={560}
             />
           </CardContent>
         </Card>

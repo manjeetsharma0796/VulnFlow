@@ -19,9 +19,14 @@ export function Providers({ children }: { children: ReactNode }) {
 
     return (
         <ThemeProvider attribute="class" defaultTheme="light" enableSystem={false}>
-            <WagmiProvider config={config}>
+            <WagmiProvider config={config} reconnectOnMount={true}>
                 <QueryClientProvider client={client}>
-                    <RainbowKitProvider theme={lightTheme()}>
+                    <RainbowKitProvider
+                        theme={lightTheme()}
+                        appInfo={{
+                            appName: "VulnFlow",
+                        }}
+                    >
                         {children}
                     </RainbowKitProvider>
                 </QueryClientProvider>

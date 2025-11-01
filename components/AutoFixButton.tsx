@@ -27,7 +27,7 @@ export function AutoFixButton({
   const handlePay = async () => {
     try {
       setLoading(true);
-      
+
       // Step 1: Approve token
       toast.loading("Approving VFT payment...", { id: "approve" });
       await writeContractAsync({
@@ -37,7 +37,7 @@ export function AutoFixButton({
         args: [addresses.PaymentProcessor, COST],
       });
       toast.success("Token approval successful!", { id: "approve" });
-      
+
       // Step 2: Process payment
       toast.loading("Processing payment...", { id: "payment" });
       await writeContractAsync({
@@ -47,12 +47,12 @@ export function AutoFixButton({
         args: [COST],
       });
       toast.success("Payment processed successfully!", { id: "payment" });
-      
+
       // Step 3: Call AI to generate fix
       toast.loading("AI is analyzing and fixing your contract...", { id: "ai-fix" });
       const controller = new AbortController();
       const timeoutId = setTimeout(() => controller.abort(), 60000); // 60s timeout
-      
+
       try {
         const res = await fetch("/api/autofix", {
           method: "POST",
@@ -61,21 +61,21 @@ export function AutoFixButton({
           signal: controller.signal,
         });
         clearTimeout(timeoutId);
-        
+
         if (!res.ok) {
           const json = await res.json().catch(() => ({}));
           throw new Error(json?.error || `API error: ${res.status} ${res.statusText}`);
         }
-        
+
         const json = await res.json();
         const improved = json?.improvedSource as string;
-        
+
         if (!improved || typeof improved !== "string") {
           throw new Error("AI did not return valid code. Please try again.");
         }
-        
+
         toast.success("AI Auto-Fix generated successfully! Check the result below.", { id: "ai-fix" });
-        
+
         if (onApplied) {
           onApplied(improved);
         }

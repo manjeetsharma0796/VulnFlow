@@ -3,12 +3,12 @@
 import { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { 
-  AlertTriangle, 
-  Shield, 
-  AlertCircle, 
-  Info, 
-  ChevronDown, 
+import {
+  AlertTriangle,
+  Shield,
+  AlertCircle,
+  Info,
+  ChevronDown,
   ChevronUp,
   CheckCircle2,
   Activity,
@@ -27,21 +27,21 @@ function Progress({ value }: { value: number }) {
   );
 }
 
-function CollapsibleSection({ 
-  title, 
-  count, 
-  children, 
+function CollapsibleSection({
+  title,
+  count,
+  children,
   defaultOpen = true,
-  severity 
-}: { 
-  title: string; 
-  count: number; 
+  severity
+}: {
+  title: string;
+  count: number;
   children: React.ReactNode;
   defaultOpen?: boolean;
   severity: string;
 }) {
   const [isOpen, setIsOpen] = useState(defaultOpen);
-  
+
   if (count === 0) return null;
 
   const severityColors: Record<string, { bg: string; border: string; text: string; icon: React.ReactNode }> = {
@@ -84,7 +84,7 @@ function CollapsibleSection({
           <span className={cn("font-semibold text-sm", colors.text)}>
             {title}
           </span>
-          <Badge 
+          <Badge
             variant={severity === "Critical" ? "destructive" : severity === "High" ? "outline" : "default"}
             className={cn(
               severity === "Critical" && "bg-red-600",
@@ -107,11 +107,11 @@ function CollapsibleSection({
   );
 }
 
-function VulnerabilityCard({ 
-  issue, 
-  severity 
-}: { 
-  issue: any; 
+function VulnerabilityCard({
+  issue,
+  severity
+}: {
+  issue: any;
   severity: string;
 }) {
   const getIcon = (title: string) => {
@@ -188,36 +188,36 @@ export function AnalysisResult({ report }: { report: any | null }) {
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {/* Summary Section */}
         <Card className="bg-gradient-to-br from-blue-50 to-indigo-50 dark:from-blue-950/20 dark:to-indigo-950/20 border-blue-200 dark:border-blue-900">
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2 text-lg">
-            <Shield className="w-5 h-5 text-blue-600" />
-            Analysis Summary
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-3">
-          <div className="grid grid-cols-2 gap-3">
-            <div>
-              <div className="text-2xl font-bold text-blue-600">{totalIssues}</div>
-              <div className="text-xs text-muted-foreground">Total Issues</div>
+          <CardHeader>
+            <CardTitle className="flex items-center gap-2 text-lg">
+              <Shield className="w-5 h-5 text-blue-600" />
+              Analysis Summary
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            <div className="grid grid-cols-2 gap-3">
+              <div>
+                <div className="text-2xl font-bold text-blue-600">{totalIssues}</div>
+                <div className="text-xs text-muted-foreground">Total Issues</div>
+              </div>
+              <div>
+                <div className="text-2xl font-bold text-red-600">{criticalCount}</div>
+                <div className="text-xs text-muted-foreground">Critical</div>
+              </div>
             </div>
-            <div>
-              <div className="text-2xl font-bold text-red-600">{criticalCount}</div>
-              <div className="text-xs text-muted-foreground">Critical</div>
-            </div>
-          </div>
-          {criticalCount === 0 && highCount === 0 && (
-            <div className="flex items-center gap-2 text-sm text-green-600">
-              <CheckCircle2 className="w-4 h-4" />
-              <span>No critical or high severity issues found!</span>
-            </div>
-          )}
-          {criticalCount > 0 && (
-            <div className="flex items-center gap-2 text-sm text-red-600">
-              <AlertTriangle className="w-4 h-4" />
-              <span>Action required: {criticalCount} critical issue{criticalCount > 1 ? "s" : ""} found</span>
-            </div>
-          )}
-        </CardContent>
+            {criticalCount === 0 && highCount === 0 && (
+              <div className="flex items-center gap-2 text-sm text-green-600">
+                <CheckCircle2 className="w-4 h-4" />
+                <span>No critical or high severity issues found!</span>
+              </div>
+            )}
+            {criticalCount > 0 && (
+              <div className="flex items-center gap-2 text-sm text-red-600">
+                <AlertTriangle className="w-4 h-4" />
+                <span>Action required: {criticalCount} critical issue{criticalCount > 1 ? "s" : ""} found</span>
+              </div>
+            )}
+          </CardContent>
         </Card>
 
         {/* Metrics Section */}
@@ -227,67 +227,67 @@ export function AnalysisResult({ report }: { report: any | null }) {
               <CardTitle className="text-lg">Metrics</CardTitle>
             </CardHeader>
             <CardContent className="space-y-4">
-            {m.overallScore !== undefined && (
-              <div className="flex items-center gap-4">
-                <Speedometer value={m.overallScore} />
-                <div className="flex-1">
-                  <div className="flex items-center justify-between text-sm">
-                    <span>Overall Score</span>
-                    <span className="font-semibold">{m.overallScore}/100</span>
+              {m.overallScore !== undefined && (
+                <div className="flex items-center gap-4">
+                  <Speedometer value={m.overallScore} />
+                  <div className="flex-1">
+                    <div className="flex items-center justify-between text-sm">
+                      <span>Overall Score</span>
+                      <span className="font-semibold">{m.overallScore}/100</span>
+                    </div>
+                    <Progress value={m.overallScore} />
                   </div>
-                  <Progress value={m.overallScore} />
                 </div>
+              )}
+              <div className="grid grid-cols-1 gap-3">
+                {m.securityScore !== undefined && (
+                  <div>
+                    <div className="flex items-center justify-between text-sm mb-1">
+                      <span>Security</span>
+                      <span className="font-semibold">{m.securityScore}/100</span>
+                    </div>
+                    <Progress value={m.securityScore} />
+                  </div>
+                )}
+                {m.gasScore !== undefined && (
+                  <div>
+                    <div className="flex items-center justify-between text-sm mb-1">
+                      <span>Gas Efficiency</span>
+                      <span className="font-semibold">{m.gasScore}/100</span>
+                    </div>
+                    <Progress value={m.gasScore} />
+                  </div>
+                )}
+                {m.maintainabilityScore !== undefined && (
+                  <div>
+                    <div className="flex items-center justify-between text-sm mb-1">
+                      <span>Maintainability</span>
+                      <span className="font-semibold">{m.maintainabilityScore}/100</span>
+                    </div>
+                    <Progress value={m.maintainabilityScore} />
+                  </div>
+                )}
               </div>
-            )}
-            <div className="grid grid-cols-1 gap-3">
-              {m.securityScore !== undefined && (
-                <div>
-                  <div className="flex items-center justify-between text-sm mb-1">
-                    <span>Security</span>
-                    <span className="font-semibold">{m.securityScore}/100</span>
+              <div className="grid grid-cols-3 gap-4 text-xs text-muted-foreground pt-2 border-t">
+                {m.cyclomaticComplexity !== undefined && (
+                  <div>
+                    <div className="font-medium">Cyclomatic</div>
+                    <div>{m.cyclomaticComplexity}</div>
                   </div>
-                  <Progress value={m.securityScore} />
-                </div>
-              )}
-              {m.gasScore !== undefined && (
-                <div>
-                  <div className="flex items-center justify-between text-sm mb-1">
-                    <span>Gas Efficiency</span>
-                    <span className="font-semibold">{m.gasScore}/100</span>
+                )}
+                {m.codeSmells !== undefined && (
+                  <div>
+                    <div className="font-medium">Code Smells</div>
+                    <div>{m.codeSmells}</div>
                   </div>
-                  <Progress value={m.gasScore} />
-                </div>
-              )}
-              {m.maintainabilityScore !== undefined && (
-                <div>
-                  <div className="flex items-center justify-between text-sm mb-1">
-                    <span>Maintainability</span>
-                    <span className="font-semibold">{m.maintainabilityScore}/100</span>
+                )}
+                {m.securityFlags !== undefined && (
+                  <div>
+                    <div className="font-medium">Security Flags</div>
+                    <div>{m.securityFlags}</div>
                   </div>
-                  <Progress value={m.maintainabilityScore} />
-                </div>
-              )}
-            </div>
-            <div className="grid grid-cols-3 gap-4 text-xs text-muted-foreground pt-2 border-t">
-              {m.cyclomaticComplexity !== undefined && (
-                <div>
-                  <div className="font-medium">Cyclomatic</div>
-                  <div>{m.cyclomaticComplexity}</div>
-                </div>
-              )}
-              {m.codeSmells !== undefined && (
-                <div>
-                  <div className="font-medium">Code Smells</div>
-                  <div>{m.codeSmells}</div>
-                </div>
-              )}
-              {m.securityFlags !== undefined && (
-                <div>
-                  <div className="font-medium">Security Flags</div>
-                  <div>{m.securityFlags}</div>
-                </div>
-              )}
-            </div>
+                )}
+              </div>
             </CardContent>
           </Card>
         )}
@@ -298,7 +298,7 @@ export function AnalysisResult({ report }: { report: any | null }) {
         {order.map((sev) => {
           const issues = grouped[sev] || [];
           if (issues.length === 0) return null;
-          
+
           return (
             <CollapsibleSection
               key={sev}
