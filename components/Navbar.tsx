@@ -127,7 +127,7 @@ export function Navbar() {
           {navItems.map((item, idx) => (
             <Link
               key={idx}
-              href={item.link}
+              href={item.link as any}
               className="text-purple-700 hover:text-purple-600 transition-colors text-sm font-medium font-sans relative group"
             >
               {item.name}
@@ -140,10 +140,10 @@ export function Navbar() {
             onClick={handleClaim}
             disabled={claimLoading || !canClaim}
             className={`px-4 py-2 rounded-lg font-medium transition-all text-sm ${!canClaim && !claimLoading
-                ? "bg-orange-500/20 text-orange-600 cursor-not-allowed"
-                : claimLoading
-                  ? "bg-purple-500/30 text-purple-600 cursor-wait"
-                  : "bg-gradient-to-r from-purple-500 to-blue-500 text-white hover:shadow-lg hover:shadow-purple-500/50"
+              ? "bg-orange-500/20 text-orange-600 cursor-not-allowed"
+              : claimLoading
+                ? "bg-purple-500/30 text-purple-600 cursor-wait"
+                : "bg-gradient-to-r from-purple-500 to-blue-500 text-white hover:shadow-lg hover:shadow-purple-500/50"
               }`}
           >
             {!canClaim && !claimLoading
