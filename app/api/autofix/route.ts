@@ -41,8 +41,8 @@ export async function POST(req: NextRequest) {
       apiKey: process.env.GOOGLE_API_KEY,
       model: "gemini-2.0-flash-exp",
       temperature: 0.2,
-      maxTokens: 8192,
-      timeout: 55000, // 55s timeout (less than client timeout)
+      // maxTokens: 8192,
+      // timeout: 55000, // 55s timeout (less than client timeout)
     });
 
     const system = `You are an expert ${LangName[language]} security engineer. Analyze the contract and produce a COMPLETE, FUNCTIONAL improved version that REMOVES ALL vulnerabilities while preserving intended behavior.
